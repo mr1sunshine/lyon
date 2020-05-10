@@ -21,8 +21,8 @@ struct MonotoneVertex {
 impl BasicMonotoneTessellator {
     pub fn new() -> Self {
         BasicMonotoneTessellator {
-            stack: Vec::with_capacity(16),
-            triangles: Vec::with_capacity(128),
+            stack: Vec::new(),
+            triangles: Vec::new(),
             // Some placeholder value that will be replaced right away.
             previous: MonotoneVertex {
                 pos: Point::new(0.0, 0.0),
@@ -42,7 +42,10 @@ impl BasicMonotoneTessellator {
         self.previous = first;
 
         self.triangles.clear();
+        self.triangles.reserve(16);
+
         self.stack.clear();
+        self.stack.reserve(16);
         self.stack.push(first);
 
         self
@@ -139,9 +142,6 @@ impl BasicMonotoneTessellator {
         self.triangles.clear();
     }
 }
-
-#[cfg(test)]
-use crate::math::point;
 
 #[test]
 fn test_monotone_tess() {
